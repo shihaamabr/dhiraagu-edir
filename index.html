@@ -13,45 +13,26 @@
     <meta property="og:image" content="og-image.png">
     <meta property="og:type" content="website">
     <meta name="twitter:card" content="summary_large_image">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        :root {
-            --orange: #ffa31a;
-            --orange-hover: #ffb84d;
-            --gray: #808080;
-        }
-
-        /* Light theme (default) */
-        :root {
-            --bg-primary: #ffffff;
-            --bg-secondary: #f5f5f5;
-            --bg-card: #ffffff;
-            --text-primary: #1b1b1b;
-            --text-secondary: #808080;
-            --shadow: rgba(0, 0, 0, 0.1);
-            --shadow-elevated: rgba(0, 0, 0, 0.15);
-            --border: #e0e0e0;
-        }
-
-        /* Dark theme */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --bg-primary: #1b1b1b;
-                --bg-secondary: #292929;
-                --bg-card: #292929;
-                --text-primary: #ffffff;
-                --text-secondary: #808080;
-                --shadow: rgba(0, 0, 0, 0.3);
-                --shadow-elevated: rgba(0, 0, 0, 0.5);
-                --border: #3a3a3a;
-            }
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+        }
+
+        :root {
+            --orange: #ff8c00;
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #1a1a1a;
+            --bg-card: #111111;
+            --text-primary: #ffffff;
+            --text-secondary: #666666;
+            --border: #2a2a2a;
+            --border-hover: #ff8c00;
+            --success: #00ff66;
+            --error: #ff3333;
         }
 
         body {
@@ -62,62 +43,65 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 40px 20px;
+            border-top: 4px solid var(--orange);
         }
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 800px;
         }
 
         .card {
             background-color: var(--bg-card);
-            border-radius: 16px;
-            padding: 32px;
-            box-shadow: 0 4px 20px var(--shadow);
-            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            border: 2px solid var(--border);
+            padding: 28px;
+            margin-bottom: 20px;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 32px;
+            margin-bottom: 28px;
         }
 
         .logo {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 8px;
+            gap: 16px;
+            margin-bottom: 12px;
         }
 
         .logo-icon {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, var(--orange), #ff8c00);
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            background-color: var(--orange);
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid var(--orange);
         }
 
         .logo-icon .material-icons {
-            font-size: 28px;
+            font-size: 32px;
             color: white;
         }
 
         h1 {
-            font-size: 32px;
-            font-weight: 500;
+            font-size: 48px;
+            font-weight: 700;
             color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 4px;
         }
 
         .subtitle {
             color: var(--text-secondary);
-            font-size: 14px;
-            margin-top: 4px;
+            font-size: 12px;
+            margin-top: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
         }
 
         .input-group {
@@ -136,19 +120,22 @@
 
         .input-group input {
             width: 100%;
-            padding: 16px 16px 16px 52px;
-            font-size: 16px;
+            padding: 20px 20px 20px 56px;
+            font-size: 18px;
             font-family: 'Roboto', sans-serif;
             border: 2px solid var(--border);
-            border-radius: 12px;
             background-color: var(--bg-secondary);
             color: var(--text-primary);
             outline: none;
-            transition: all 0.2s ease;
+            transition: all 0.15s ease;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .input-group input::placeholder {
             color: var(--text-secondary);
+            text-transform: none;
         }
 
         .input-group input:focus {
@@ -163,31 +150,30 @@
 
         .btn {
             width: 100%;
-            padding: 16px 24px;
-            font-size: 16px;
-            font-weight: 500;
+            padding: 20px 24px;
+            font-size: 18px;
+            font-weight: 700;
             font-family: 'Roboto', sans-serif;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            border-radius: 12px;
+            letter-spacing: 2px;
+            border: 2px solid var(--orange);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            transition: all 0.2s ease;
+            gap: 12px;
+            transition: all 0.15s ease;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--orange), #ff8c00);
+            background-color: var(--orange);
             color: white;
-            box-shadow: 0 4px 15px rgba(255, 163, 26, 0.3);
         }
 
         .btn-primary:hover {
+            background-color: var(--border-hover);
+            border-color: var(--border-hover);
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 163, 26, 0.4);
         }
 
         .btn-primary:active {
@@ -195,9 +181,26 @@
         }
 
         .btn-primary:disabled {
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: not-allowed;
             transform: none;
+        }
+
+        .btn-danger {
+            color: var(--error);
+            font-size: 14px;
+            padding: 14px 24px;
+            margin-top: 16px;
+            border: 2px solid var(--border);
+            background-color: transparent;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--error);
+            color: white;
+            border-color: var(--error);
         }
 
         .spinner {
@@ -213,101 +216,487 @@
             to { transform: rotate(360deg); }
         }
 
-        .results {
-            margin-top: 24px;
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .search-box {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .search-box .material-icons {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            transition: color 0.2s ease;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 16px 16px 16px 56px;
+            font-size: 16px;
+            font-family: 'Roboto', sans-serif;
+            border: 2px solid var(--border);
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.15s ease;
+            font-weight: 600;
+        }
+
+        .search-box input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .search-box input:focus {
+            border-color: var(--orange);
+            background-color: var(--bg-card);
+        }
+
+        .search-box input:focus + .material-icons {
+            color: var(--orange);
+        }
+
+        .search-box .clear-search {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-secondary);
+            display: none;
+            padding: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .search-box .clear-search:hover {
+            color: var(--error);
+            background-color: rgba(244, 67, 54, 0.1);
+        }
+
+        .search-box .clear-search.show {
+            display: block;
+        }
+
+        .results-count {
+            font-size: 12px;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .mobile-table {
             display: none;
         }
 
-        .results.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .result-card {
-            background-color: var(--bg-secondary);
-            border-radius: 12px;
+        .mobile-card {
+            border: 2px solid var(--border);
             padding: 20px;
-            border-left: 4px solid var(--orange);
+            margin-bottom: 12px;
+            background-color: var(--bg-secondary);
         }
 
-        .result-item {
+        .mobile-card-item {
             display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            padding: 12px 0;
+            flex-direction: column;
+            gap: 6px;
+            padding: 14px 0;
             border-bottom: 1px solid var(--border);
         }
 
-        .result-item:last-child {
+        .mobile-card-item:last-child {
             border-bottom: none;
             padding-bottom: 0;
         }
 
-        .result-item:first-child {
-            padding-top: 0;
-        }
-
-        .result-item .material-icons {
-            color: var(--orange);
-            font-size: 20px;
-            margin-top: 2px;
-        }
-
-        .result-label {
-            font-size: 12px;
-            color: var(--text-secondary);
+        .mobile-card-label {
+            font-size: 10px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 4px;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            font-family: 'Roboto Mono', monospace;
         }
 
-        .result-value {
-            font-size: 16px;
+        .mobile-card-value {
+            font-size: 15px;
+            font-weight: 600;
             color: var(--text-primary);
             word-break: break-word;
+            letter-spacing: 0.5px;
         }
 
-        .error-message {
-            background-color: rgba(244, 67, 54, 0.1);
-            border: 1px solid rgba(244, 67, 54, 0.3);
-            border-radius: 12px;
-            padding: 16px;
+        .table-container {
+            border: 2px solid var(--border);
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .table-container::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .table-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-left: 2px solid var(--border);
+        }
+
+        .table-container::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border: 2px solid var(--border);
+        }
+
+        .table-container::-webkit-scrollbar-thumb:hover {
+            background: var(--border-hover);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-secondary);
+            z-index: 10;
+            border-bottom: 2px solid var(--border);
+        }
+
+        th {
+            padding: 16px 14px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        th:hover {
+            color: var(--border-hover);
+            background-color: var(--bg-card);
+        }
+
+        th.sortable::after {
+            content: '↕';
+            font-size: 10px;
+            margin-left: 4px;
+            opacity: 0.3;
+        }
+
+        th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+
+        th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+
+        td {
+            padding: 16px 14px;
+            font-size: 14px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        tbody tr {
+            transition: all 0.15s ease;
+        }
+
+        tbody tr:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .phone-number {
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--orange);
+            font-size: 16px;
+            letter-spacing: 1px;
+        }
+
+        .result {
+            word-break: break-word;
+            max-width: 300px;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .datetime {
+            font-size: 12px;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            letter-spacing: 0.5px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Roboto Mono', monospace;
+            border: 2px solid;
+        }
+
+        .status-success {
+            background-color: transparent;
+            color: var(--success);
+            border-color: var(--success);
+        }
+
+        .status-not-found {
+            background-color: transparent;
+            color: var(--error);
+            border-color: var(--error);
+        }
+
+        .status-error {
+            background-color: transparent;
+            color: var(--error);
+            border-color: var(--error);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .material-icons {
+            font-size: 72px;
+            margin-bottom: 20px;
+            opacity: 0.2;
+            color: var(--text-secondary);
+        }
+
+        .empty-state h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .empty-state p {
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background-color: var(--bg-card);
+            border: 2px solid var(--border);
+            color: var(--text-primary);
+            padding: 16px 28px;
+            font-size: 14px;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.15s ease;
+            z-index: 1000;
             display: flex;
             align-items: center;
             gap: 12px;
-            color: #f44336;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .error-message .material-icons {
-            font-size: 24px;
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
         }
 
-        .searched-number {
-            font-size: 14px;
-            color: var(--orange);
-            font-weight: 500;
-            margin-bottom: 8px;
-            display: flex;
+        .toast .material-icons {
+            font-size: 20px;
+        }
+
+        .toast.success .material-icons {
+            color: var(--success);
+        }
+
+        .toast.error .material-icons {
+            color: var(--error);
+        }
+
+        .confirm-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            z-index: 1000;
+            animation: fadeIn 0.2s ease;
         }
 
-        .searched-number .material-icons {
-            font-size: 16px;
+        .confirm-modal.show {
+            display: flex;
         }
 
-        .result-card + .result-card,
-        .result-card + .error-message,
-        .error-message + .result-card,
-        .error-message + .error-message {
-            margin-top: 12px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
+        .confirm-card {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border);
+            padding: 32px;
+            max-width: 400px;
+            width: 90%;
+            animation: scaleIn 0.15s ease;
+        }
+
+        .confirm-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .confirm-message {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            line-height: 1.5;
+        }
+
+        @keyframes scaleIn {
+            from { 
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to { 
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .confirm-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .confirm-message {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .confirm-actions {
+            display: flex;
+            gap: 16px;
+        }
+
+        .confirm-actions .btn {
+            flex: 1;
+            font-size: 14px;
+            padding: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0;
+            }
+
+            .card {
+                border-left: none;
+                border-right: none;
+                padding: 24px;
+            }
+
+            .mobile-table {
+                display: block;
+            }
+
+            .desktop-table {
+                display: none;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 16px;
+                border-bottom: none;
+                padding-bottom: 0;
+            }
+
+            .btn-danger {
+                width: 100%;
+            }
+
+            h1 {
+                font-size: 32px;
+                letter-spacing: 2px;
+            }
+
+            .logo-icon {
+                width: 48px;
+                height: 48px;
+            }
+
+            .logo-icon .material-icons {
+                font-size: 28px;
+            }
+
+            .search-box {
+                margin-bottom: 20px;
+            }
+
+            .results-count {
+                margin-bottom: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -340,17 +729,272 @@
                     <span>Search</span>
                 </button>
             </form>
-
-            <div class="results" id="results"></div>
         </div>
 
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">Search History</h2>
+                <button class="btn btn-danger" id="clearHistoryBtn">
+                    <span class="material-icons">delete</span>
+                    <span>Clear History</span>
+                </button>
+            </div>
+
+            <div class="search-box">
+                <input type="text" id="tableSearch" placeholder="Search history...">
+                <span class="material-icons">filter_list</span>
+                <button class="clear-search" id="clearSearchBtn">
+                    <span class="material-icons">close</span>
+                </button>
+            </div>
+
+            <div class="results-count" id="resultsCount"></div>
+
+            <div class="table-container desktop-table">
+                <table id="historyTable">
+                    <thead>
+                        <tr>
+                            <th class="sortable" data-sort="phone">Phone</th>
+                            <th class="sortable" data-sort="result">Result</th>
+                            <th class="sortable" data-sort="timestamp">Date/Time</th>
+                            <th class="sortable" data-sort="status">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                    </tbody>
+                </table>
+                <div id="emptyState" class="empty-state">
+                    <span class="material-icons">history</span>
+                    <h3>No search history yet</h3>
+                    <p>Your searches will appear here</p>
+                </div>
+            </div>
+
+            <div class="mobile-table" id="mobileTable"></div>
+            <div id="emptyStateMobile" class="empty-state mobile-table">
+                <span class="material-icons">history</span>
+                <h3>No search history yet</h3>
+                <p>Your searches will appear here</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">
+        <span class="material-icons" id="toastIcon"></span>
+        <span id="toastMessage"></span>
+    </div>
+
+    <div class="confirm-modal" id="confirmModal">
+        <div class="confirm-card">
+            <h3 class="confirm-title">Clear History?</h3>
+            <p class="confirm-message">Are you sure you want to clear all search history? This action cannot be undone.</p>
+            <div class="confirm-actions">
+                <button class="btn" id="cancelClearBtn">Cancel</button>
+                <button class="btn btn-primary" id="confirmClearBtn">Clear</button>
+            </div>
+        </div>
     </div>
 
     <script>
         const form = document.getElementById('searchForm');
         const phoneInput = document.getElementById('phoneNumber');
         const searchBtn = document.getElementById('searchBtn');
-        const resultsDiv = document.getElementById('results');
+        const tableSearch = document.getElementById('tableSearch');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+        const historyTableBody = document.getElementById('historyTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const resultsCount = document.getElementById('resultsCount');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastIcon = document.getElementById('toastIcon');
+        const confirmModal = document.getElementById('confirmModal');
+        const cancelClearBtn = document.getElementById('cancelClearBtn');
+        const confirmClearBtn = document.getElementById('confirmClearBtn');
+        const mobileTable = document.getElementById('mobileTable');
+        const emptyStateMobile = document.getElementById('emptyStateMobile');
+
+        let searchHistory = [];
+        let currentSort = { column: 'timestamp', direction: 'desc' };
+
+        const HISTORY_KEY = 'edir_search_history';
+
+        function loadHistory() {
+            const stored = localStorage.getItem(HISTORY_KEY);
+            if (stored) {
+                searchHistory = JSON.parse(stored);
+            }
+            renderTable();
+        }
+
+        function saveHistory() {
+            localStorage.setItem(HISTORY_KEY, JSON.stringify(searchHistory));
+        }
+
+        function addToHistory(phone, result, status) {
+            const entry = {
+                id: Date.now(),
+                phone,
+                result,
+                status,
+                timestamp: Date.now()
+            };
+            searchHistory.unshift(entry);
+            saveHistory();
+            renderTable();
+        }
+
+        function clearHistory() {
+            searchHistory = [];
+            localStorage.removeItem(HISTORY_KEY);
+            renderTable();
+            showToast('History cleared', 'success');
+        }
+
+        function formatDate(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            });
+        }
+
+        function getStatusBadge(status) {
+            const badges = {
+                success: '<span class="status-badge status-success">Found</span>',
+                not_found: '<span class="status-badge status-not-found">Not Found</span>',
+                error: '<span class="status-badge status-error">Error</span>'
+            };
+            return badges[status] || badges.error;
+        }
+
+        function renderTable(filteredHistory = null) {
+            const data = filteredHistory || getSortedHistory();
+            historyTableBody.innerHTML = '';
+            mobileTable.innerHTML = '';
+
+            if (data.length === 0) {
+                emptyState.style.display = 'block';
+                emptyStateMobile.style.display = 'block';
+                resultsCount.textContent = filteredHistory ? 'No results found' : '';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            emptyStateMobile.style.display = 'none';
+            resultsCount.textContent = `Showing ${data.length} ${data.length === 1 ? 'result' : 'results'}`;
+
+            data.forEach((entry, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="phone-number">${escapeHtml(entry.phone)}</td>
+                    <td class="result">${escapeHtml(entry.result)}</td>
+                    <td class="datetime">${formatDate(entry.timestamp)}</td>
+                    <td>${getStatusBadge(entry.status)}</td>
+                `;
+                historyTableBody.appendChild(row);
+
+                const card = document.createElement('div');
+                card.className = 'mobile-card';
+                card.innerHTML = `
+                    <div class="mobile-card-item">
+                        <span class="mobile-card-label">Phone</span>
+                        <span class="mobile-card-value phone-number">${escapeHtml(entry.phone)}</span>
+                    </div>
+                    <div class="mobile-card-item">
+                        <span class="mobile-card-label">Result</span>
+                        <span class="mobile-card-value">${escapeHtml(entry.result)}</span>
+                    </div>
+                    <div class="mobile-card-item">
+                        <span class="mobile-card-label">Date/Time</span>
+                        <span class="mobile-card-value datetime">${formatDate(entry.timestamp)}</span>
+                    </div>
+                    <div class="mobile-card-item">
+                        <span class="mobile-card-label">Status</span>
+                        <span class="mobile-card-value">${getStatusBadge(entry.status)}</span>
+                    </div>
+                `;
+                mobileTable.appendChild(card);
+            });
+        }
+
+        function getSortedHistory() {
+            const sorted = [...searchHistory];
+            sorted.sort((a, b) => {
+                let comparison = 0;
+                if (currentSort.column === 'phone') {
+                    comparison = a.phone.localeCompare(b.phone);
+                } else if (currentSort.column === 'result') {
+                    comparison = a.result.localeCompare(b.result);
+                } else if (currentSort.column === 'timestamp') {
+                    comparison = a.timestamp - b.timestamp;
+                } else if (currentSort.column === 'status') {
+                    comparison = a.status.localeCompare(b.status);
+                }
+                return currentSort.direction === 'asc' ? comparison : -comparison;
+            });
+            return sorted;
+        }
+
+        function filterHistory(searchTerm) {
+            if (!searchTerm.trim()) {
+                renderTable();
+                clearSearchBtn.classList.remove('show');
+                return;
+            }
+
+            const term = searchTerm.toLowerCase();
+            const filtered = searchHistory.filter(entry =>
+                entry.phone.toLowerCase().includes(term) ||
+                entry.result.toLowerCase().includes(term)
+            );
+
+            renderTable(filtered);
+            clearSearchBtn.classList.add('show');
+        }
+
+        function handleSort(column) {
+            if (currentSort.column === column) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.column = column;
+                currentSort.direction = 'asc';
+            }
+
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            const th = document.querySelector(`th[data-sort="${column}"]`);
+            th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+
+            const searchTerm = tableSearch.value;
+            if (searchTerm.trim()) {
+                filterHistory(searchTerm);
+            } else {
+                renderTable();
+            }
+        }
+
+        function showToast(message, type = 'success') {
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            toastIcon.textContent = type === 'success' ? 'check_circle' : 'error';
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
 
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -358,7 +1002,6 @@
             const phoneNumber = phoneInput.value.trim();
             if (!phoneNumber) return;
 
-            // Show loading state
             searchBtn.disabled = true;
             searchBtn.innerHTML = '<div class="spinner"></div><span>Searching...</span>';
 
@@ -368,15 +1011,15 @@
 
                 if (response.ok && data && data.dirEnquiryEntry) {
                     if (data.dirEnquiryEntry === 'Number not found') {
-                        displayError(phoneNumber, 'Number not found');
+                        addToHistory(phoneNumber, 'Number not found', 'not_found');
                     } else {
-                        displayResult(phoneNumber, data.dirEnquiryEntry);
+                        addToHistory(phoneNumber, data.dirEnquiryEntry, 'success');
                     }
                 } else {
-                    displayError(phoneNumber, 'No results found');
+                    addToHistory(phoneNumber, 'No results found', 'error');
                 }
             } catch (error) {
-                displayError(phoneNumber, 'Failed to fetch data. Please try again.');
+                addToHistory(phoneNumber, 'Failed to fetch data', 'error');
             } finally {
                 searchBtn.disabled = false;
                 searchBtn.innerHTML = '<span class="material-icons">search</span><span>Search</span>';
@@ -384,48 +1027,53 @@
             }
         });
 
-        function displayResult(searchedNumber, entry) {
-            const html = `
-                <div class="result-card">
-                    <div class="searched-number">
-                        <span class="material-icons">phone</span>
-                        <span>${escapeHtml(searchedNumber)}</span>
-                    </div>
-                    <div class="result-item">
-                        <span class="material-icons">person</span>
-                        <div>
-                            <div class="result-label">Directory Entry</div>
-                            <div class="result-value">${escapeHtml(entry)}</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-            resultsDiv.insertAdjacentHTML('afterbegin', html);
-            resultsDiv.classList.add('show');
-        }
+        tableSearch.addEventListener('input', (e) => {
+            filterHistory(e.target.value);
+        });
 
-        function displayError(searchedNumber, message) {
-            const html = `
-                <div class="error-message">
-                    <span class="material-icons">error</span>
-                    <div>
-                        <div class="searched-number" style="color: #f44336; margin-bottom: 4px;">
-                            <span class="material-icons">phone</span>
-                            <span>${escapeHtml(searchedNumber)}</span>
-                        </div>
-                        <span>${escapeHtml(message)}</span>
-                    </div>
-                </div>
-            `;
-            resultsDiv.insertAdjacentHTML('afterbegin', html);
-            resultsDiv.classList.add('show');
-        }
+        clearSearchBtn.addEventListener('click', () => {
+            tableSearch.value = '';
+            filterHistory('');
+            tableSearch.focus();
+        });
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+        document.querySelectorAll('th.sortable').forEach(th => {
+            th.addEventListener('click', () => {
+                handleSort(th.dataset.sort);
+            });
+        });
+
+        clearHistoryBtn.addEventListener('click', () => {
+            if (searchHistory.length === 0) {
+                showToast('No history to clear', 'error');
+                return;
+            }
+            confirmModal.classList.add('show');
+        });
+
+        cancelClearBtn.addEventListener('click', () => {
+            confirmModal.classList.remove('show');
+        });
+
+        confirmClearBtn.addEventListener('click', () => {
+            confirmModal.classList.remove('show');
+            clearHistory();
+        });
+
+        confirmModal.addEventListener('click', (e) => {
+            if (e.target === confirmModal) {
+                confirmModal.classList.remove('show');
+            }
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === 'f') {
+                e.preventDefault();
+                tableSearch.focus();
+            }
+        });
+
+        loadHistory();
     </script>
 </body>
 </html>
