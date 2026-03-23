@@ -381,41 +381,106 @@
             display: none;
         }
 
-        .mobile-card {
+        .mobile-table .table-container {
             border: 2px solid var(--border);
-            padding: 20px;
-            margin-bottom: 12px;
+            overflow: hidden;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .mobile-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .mobile-table thead {
+            position: sticky;
+            top: 0;
+            background-color: var(--bg-secondary);
+            z-index: 10;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .mobile-table th {
+            padding: 12px 10px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-family: 'Roboto Mono', monospace;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .mobile-table th:hover {
+            color: var(--orange);
+            background-color: var(--bg-card);
+        }
+
+        .mobile-table th.sortable::after {
+            content: '↕';
+            font-size: 9px;
+            margin-left: 4px;
+            opacity: 0.3;
+        }
+
+        .mobile-table th.sort-asc::after {
+            content: '↑';
+            opacity: 1;
+        }
+
+        .mobile-table th.sort-desc::after {
+            content: '↓';
+            opacity: 1;
+        }
+
+        .mobile-table td {
+            padding: 12px 10px;
+            font-size: 13px;
+            color: var(--text-primary);
+            border-bottom: 1px solid var(--border);
+            font-weight: 500;
+        }
+
+        .mobile-table .phone-number {
+            font-size: 14px;
+        }
+
+        .mobile-table .result {
+            max-width: 150px;
+            font-size: 13px;
+        }
+
+        .mobile-table .datetime {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+
+        .mobile-table .datetime .date-part {
+            display: block;
+        }
+
+        .mobile-table .datetime .date-part::after {
+            content: none;
+        }
+
+        .mobile-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .mobile-table tbody tr {
+            transition: all 0.15s ease;
+        }
+
+        .mobile-table tbody tr:hover {
             background-color: var(--bg-secondary);
         }
 
-        .mobile-card-item {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding: 14px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .mobile-card-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
-        }
-
-        .mobile-card-label {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: var(--text-secondary);
-            font-family: 'Roboto Mono', monospace;
-        }
-
-        .mobile-card-value {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            word-break: break-word;
-            letter-spacing: 0.5px;
+        .mobile-table .phone-link .material-icons {
+            font-size: 14px;
         }
 
         .table-container {
@@ -549,8 +614,15 @@
             font-size: 12px;
             font-family: 'Roboto Mono', monospace;
             color: var(--text-secondary);
-            white-space: nowrap;
             letter-spacing: 0.5px;
+        }
+
+        .datetime .date-part::after {
+            content: ' ';
+        }
+
+        .datetime .time-part {
+            white-space: nowrap;
         }
 
         .status-badge {
@@ -968,7 +1040,6 @@
                             <th class="sortable" data-sort="phone">Phone</th>
                             <th class="sortable" data-sort="result">Result</th>
                             <th class="sortable" data-sort="timestamp">Date/Time</th>
-                            <th class="sortable" data-sort="status">Status</th>
                         </tr>
                     </thead>
                     <tbody id="historyTableBody">
@@ -981,7 +1052,21 @@
                 </div>
             </div>
 
-                <div class="mobile-table" id="mobileTable"></div>
+                <div class="mobile-table" id="mobileTableContainer">
+                    <div class="table-container">
+                        <table id="mobileHistoryTable">
+                            <thead>
+                                <tr>
+                                    <th class="sortable" data-sort="phone">Phone</th>
+                                    <th class="sortable" data-sort="result">Result</th>
+                                    <th class="sortable" data-sort="timestamp">Date/Time</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mobileTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
                 <div id="emptyStateMobile" class="empty-state mobile-table">
                     <span class="material-icons">history</span>
                     <h3>No search history yet</h3>
@@ -1192,7 +1277,8 @@
         const confirmModal = document.getElementById('confirmModal');
         const cancelClearBtn = document.getElementById('cancelClearBtn');
         const confirmClearBtn = document.getElementById('confirmClearBtn');
-        const mobileTable = document.getElementById('mobileTable');
+        const mobileTableContainer = document.getElementById('mobileTableContainer');
+        const mobileTableBody = document.getElementById('mobileTableBody');
         const emptyStateMobile = document.getElementById('emptyStateMobile');
 
         let searchHistory = [];
@@ -1234,14 +1320,17 @@
 
         function formatDate(timestamp) {
             const date = new Date(timestamp);
-            return date.toLocaleString('en-US', {
+            const datePart = date.toLocaleDateString('en-US', {
                 month: 'short',
                 day: 'numeric',
-                year: 'numeric',
+                year: 'numeric'
+            });
+            const timePart = date.toLocaleTimeString('en-US', {
                 hour: '2-digit',
                 minute: '2-digit',
                 hour12: true
             });
+            return `<span class="date-part">${datePart}</span><span class="time-part">${timePart}</span>`;
         }
 
         function getStatusBadge(status) {
@@ -1256,20 +1345,32 @@
         function renderTable(filteredHistory = null) {
             const data = filteredHistory || getSortedHistory();
             historyTableBody.innerHTML = '';
-            mobileTable.innerHTML = '';
+            mobileTableBody.innerHTML = '';
 
             if (data.length === 0) {
                 emptyState.style.display = 'block';
+                mobileTableContainer.style.display = 'none';
                 emptyStateMobile.style.display = '';  // Let CSS media queries handle visibility
                 resultsCount.textContent = filteredHistory ? 'No results found' : '';
                 return;
             }
 
             emptyState.style.display = 'none';
+            mobileTableContainer.style.display = '';
             emptyStateMobile.style.display = 'none';
             resultsCount.textContent = `Showing ${data.length} ${data.length === 1 ? 'result' : 'results'}`;
 
             data.forEach((entry, index) => {
+                let resultHtml;
+                if (entry.status === 'not_found') {
+                    resultHtml = getStatusBadge(entry.status);
+                } else if (entry.status === 'error') {
+                    resultHtml = `${escapeHtml(entry.result)}<div style="margin-top: 8px;">${getStatusBadge(entry.status)}</div>`;
+                } else {
+                    resultHtml = escapeHtml(entry.result);
+                }
+
+                // Desktop table row
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="phone-number">
@@ -1278,38 +1379,24 @@
                             ${escapeHtml(entry.phone)}
                         </a>
                     </td>
-                    <td class="result">${escapeHtml(entry.result)}</td>
+                    <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
-                    <td>${getStatusBadge(entry.status)}</td>
                 `;
                 historyTableBody.appendChild(row);
 
-                const card = document.createElement('div');
-                card.className = 'mobile-card';
-                card.innerHTML = `
-                    <div class="mobile-card-item">
-                        <span class="mobile-card-label">Phone</span>
-                        <span class="mobile-card-value phone-number">
-                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
-                                <span class="material-icons">phone</span>
-                                ${escapeHtml(entry.phone)}
-                            </a>
-                        </span>
-                    </div>
-                    <div class="mobile-card-item">
-                        <span class="mobile-card-label">Result</span>
-                        <span class="mobile-card-value">${escapeHtml(entry.result)}</span>
-                    </div>
-                    <div class="mobile-card-item">
-                        <span class="mobile-card-label">Date/Time</span>
-                        <span class="mobile-card-value datetime">${formatDate(entry.timestamp)}</span>
-                    </div>
-                    <div class="mobile-card-item">
-                        <span class="mobile-card-label">Status</span>
-                        <span class="mobile-card-value">${getStatusBadge(entry.status)}</span>
-                    </div>
+                // Mobile table row
+                const mobileRow = document.createElement('tr');
+                mobileRow.innerHTML = `
+                    <td class="phone-number">
+                        <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
+                            <span class="material-icons">phone</span>
+                            ${escapeHtml(entry.phone)}
+                        </a>
+                    </td>
+                    <td class="result">${resultHtml}</td>
+                    <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
-                mobileTable.appendChild(card);
+                mobileTableBody.appendChild(mobileRow);
             });
         }
 
@@ -1359,8 +1446,9 @@
             document.querySelectorAll('th').forEach(th => {
                 th.classList.remove('sort-asc', 'sort-desc');
             });
-            const th = document.querySelector(`th[data-sort="${column}"]`);
-            th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            document.querySelectorAll(`th[data-sort="${column}"]`).forEach(th => {
+                th.classList.add(currentSort.direction === 'asc' ? 'sort-asc' : 'sort-desc');
+            });
 
             const searchTerm = tableSearch.value;
             if (searchTerm.trim()) {
