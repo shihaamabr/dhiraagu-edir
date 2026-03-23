@@ -17,18 +17,15 @@
   <circle cx="100" cy="100" r="200" fill="#ffa31a" opacity="0.05"/>
   <circle cx="1100" cy="575" r="250" fill="#ffa31a" opacity="0.05"/>
 
-  <!-- Logo icon -->
-  <rect x="490" y="200" width="80" height="80" rx="16" fill="url(#orange)"/>
-  <text x="530" y="255" font-family="Arial, sans-serif" font-size="40" fill="white" text-anchor="middle">&#128222;</text>
-
-  <!-- Title -->
-  <text x="600" y="260" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">E-Dir</text>
+  <!-- Logo: Phone icon + Title on one line -->
+  <text x="520" y="260" font-family="Arial, sans-serif" font-size="72" fill="url(#orange)" text-anchor="middle">&#128222;</text>
+  <text x="680" y="260" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">E-Dir</text>
 
   <!-- Subtitle -->
   <text x="600" y="340" font-family="Arial, sans-serif" font-size="28" fill="#808080" text-anchor="middle">Dhiraagu Directory Lookup</text>
 
   <!-- Tagline -->
-  <text x="600" y="420" font-family="Arial, sans-serif" font-size="22" fill="#ffa31a" text-anchor="middle">Search any phone number instantly</text>
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="22" fill="#ffa31a" text-anchor="middle">Search any phone number without Recaptcha annoyance</text>
 
   <!-- Bottom accent line -->
   <rect x="450" y="480" width="300" height="4" rx="2" fill="url(#orange)"/>
