@@ -645,10 +645,15 @@
             letter-spacing: 1px;
         }
 
-        .phone-link {
+        .phone-cell {
             display: inline-flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .phone-link {
+            display: inline-flex;
+            align-items: center;
             color: var(--orange);
             text-decoration: none;
             transition: all 0.15s ease;
@@ -660,6 +665,20 @@
 
         .phone-link .material-icons {
             font-size: 18px;
+        }
+
+        .phone-text {
+            color: var(--orange);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .phone-text:hover {
+            color: #ffaa44;
+        }
+
+        .phone-text:active {
+            opacity: 0.7;
         }
 
         .result {
@@ -1445,14 +1464,17 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="phone-number">
-                        <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
-                            <span class="material-icons">phone</span>
-                            ${escapeHtml(entry.phone)}
-                        </a>
+                        <span class="phone-cell">
+                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
+                                <span class="material-icons">phone</span>
+                            </a>
+                            <span class="phone-text">${escapeHtml(entry.phone)}</span>
+                        </span>
                     </td>
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
+                row.querySelector('.phone-text').addEventListener('click', () => copyToClipboard(entry.phone));
                 const resultCell = row.querySelector('.result');
                 if (entry.status === 'success') {
                     resultCell.classList.add('copyable');
@@ -1464,14 +1486,17 @@
                 const mobileRow = document.createElement('tr');
                 mobileRow.innerHTML = `
                     <td class="phone-number">
-                        <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
-                            <span class="material-icons">phone</span>
-                            ${escapeHtml(entry.phone)}
-                        </a>
+                        <span class="phone-cell">
+                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
+                                <span class="material-icons">phone</span>
+                            </a>
+                            <span class="phone-text">${escapeHtml(entry.phone)}</span>
+                        </span>
                     </td>
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
+                mobileRow.querySelector('.phone-text').addEventListener('click', () => copyToClipboard(entry.phone));
                 const mobileResultCell = mobileRow.querySelector('.result');
                 if (entry.status === 'success') {
                     mobileResultCell.classList.add('copyable');
