@@ -4,16 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="darkreader-lock">
-    <title>E-Dir</title>
+
+    <!-- Primary Meta Tags -->
+    <title>E-Dir - Dhiraagu Phone Directory Lookup | Find Maldives Phone Numbers</title>
+    <meta name="title" content="E-Dir - Dhiraagu Phone Directory Lookup | Find Maldives Phone Numbers">
+    <meta name="description" content="Search Dhiraagu phone directory instantly. Find Maldives phone numbers, addresses, and contact details. Fast, free, no captcha. Alternative to official Dhiraagu E-Directory.">
+    <meta name="keywords" content="dhiraagu, e-directory, edir, e-dir, phone directory, maldives phone numbers, dhiraagu directory, phone lookup, maldives directory, dhiraagu phone search, find phone number maldives, dhiraagu number search, maldives telephone directory">
+    <meta name="author" content="E-Dir">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="7 days">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://dhiraagu-edir.shihaam.me/">
+
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="icon" type="image/png" href="favicon.png">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
-    <meta name="description" content="Dhiraagu Directory Lookup - Search without Recaptcha annoyance">
-    <meta property="og:title" content="E-Dir">
-    <meta property="og:description" content="Dhiraagu Directory Lookup - Search without Recaptcha annoyance">
-    <meta property="og:image" content="og-image.png">
+
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dhiraagu-edir.shihaam.me/">
+    <meta property="og:title" content="E-Dir - Dhiraagu Phone Directory Lookup | Find Maldives Phone Numbers">
+    <meta property="og:description" content="Search Dhiraagu phone directory instantly. Find Maldives phone numbers, addresses, and contact details. Fast, free, no captcha required.">
+    <meta property="og:image" content="https://dhiraagu-edir.shihaam.me/og-image.png">
+    <meta property="og:site_name" content="E-Dir">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://dhiraagu-edir.shihaam.me/">
+    <meta name="twitter:title" content="E-Dir - Dhiraagu Phone Directory Lookup">
+    <meta name="twitter:description" content="Search Dhiraagu phone directory instantly. Find Maldives phone numbers fast, free, no captcha.">
+    <meta name="twitter:image" content="https://dhiraagu-edir.shihaam.me/og-image.png">
+
+    <!-- Additional SEO -->
+    <meta name="application-name" content="E-Dir">
+    <meta name="theme-color" content="#ff8c00">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="E-Dir">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "E-Dir",
+        "alternateName": "Dhiraagu E-Directory Alternative",
+        "description": "Search Dhiraagu phone directory instantly. Find Maldives phone numbers, addresses, and contact details without captcha.",
+        "url": "https://dhiraagu-edir.shihaam.me/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "Any",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
@@ -714,6 +765,121 @@
             .results-count {
                 margin-bottom: 12px;
             }
+
+            .emergency-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .emergency-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .emergency-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background-color: var(--bg-secondary);
+            border: 2px solid var(--border);
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .emergency-card:hover {
+            border-color: var(--orange);
+            background-color: var(--bg-card);
+        }
+
+        .emergency-card .material-icons {
+            font-size: 28px;
+            color: var(--text-secondary);
+        }
+
+        .emergency-card:hover .material-icons {
+            color: var(--orange);
+        }
+
+        .emergency-critical {
+            border-color: var(--error);
+        }
+
+        .emergency-critical .material-icons {
+            color: var(--error);
+        }
+
+        .emergency-critical:hover {
+            background-color: rgba(255, 51, 51, 0.1);
+            border-color: var(--error);
+        }
+
+        .emergency-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .emergency-name {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+        }
+
+        .emergency-number {
+            font-size: 18px;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+
+        .emergency-section {
+            margin-top: 20px;
+            border: 2px solid var(--border);
+        }
+
+        .emergency-section summary {
+            padding: 16px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            background-color: var(--bg-secondary);
+            transition: all 0.15s ease;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .emergency-section summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .emergency-section summary::after {
+            content: 'expand_more';
+            font-family: 'Material Icons';
+            font-size: 24px;
+            transition: transform 0.2s ease;
+        }
+
+        .emergency-section[open] summary::after {
+            transform: rotate(180deg);
+        }
+
+        .emergency-section summary:hover {
+            color: var(--orange);
+            background-color: var(--bg-card);
+        }
+
+        .emergency-section > .emergency-grid {
+            padding: 16px;
         }
     </style>
 </head>
@@ -794,6 +960,172 @@
                 <h3>No search history yet</h3>
                 <p>Your searches will appear here</p>
             </div>
+        </div>
+
+        <div class="card">
+            <div class="section-header">
+                <h2 class="section-title">Emergency Numbers</h2>
+            </div>
+            <div class="emergency-grid">
+                <a href="tel:119" class="emergency-card emergency-critical">
+                    <span class="material-icons">local_police</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">Police</span>
+                        <span class="emergency-number">119</span>
+                    </div>
+                </a>
+                <a href="tel:118" class="emergency-card emergency-critical">
+                    <span class="material-icons">local_fire_department</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">Fire</span>
+                        <span class="emergency-number">118</span>
+                    </div>
+                </a>
+                <a href="tel:102" class="emergency-card emergency-critical">
+                    <span class="material-icons">emergency</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">Ambulance</span>
+                        <span class="emergency-number">102</span>
+                    </div>
+                </a>
+                <a href="tel:191" class="emergency-card emergency-critical">
+                    <span class="material-icons">sailing</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">Coast Guard</span>
+                        <span class="emergency-number">191</span>
+                    </div>
+                </a>
+                <a href="tel:1676" class="emergency-card">
+                    <span class="material-icons">health_and_safety</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">HPA</span>
+                        <span class="emergency-number">1676</span>
+                    </div>
+                </a>
+                <a href="tel:1412" class="emergency-card">
+                    <span class="material-icons">child_care</span>
+                    <div class="emergency-info">
+                        <span class="emergency-name">Child Helpline</span>
+                        <span class="emergency-number">1412</span>
+                    </div>
+                </a>
+            </div>
+
+            <details class="emergency-section">
+                <summary>Public Services</summary>
+                <div class="emergency-grid">
+                    <a href="tel:104" class="emergency-card">
+                        <span class="material-icons">bolt</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">STELCO</span>
+                            <span class="emergency-number">104</span>
+                        </div>
+                    </a>
+                    <a href="tel:105" class="emergency-card">
+                        <span class="material-icons">water_drop</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">MWSC</span>
+                            <span class="emergency-number">105</span>
+                        </div>
+                    </a>
+                    <a href="tel:1402" class="emergency-card">
+                        <span class="material-icons">account_balance</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">NSPA</span>
+                            <span class="emergency-number">1402</span>
+                        </div>
+                    </a>
+                    <a href="tel:1400" class="emergency-card">
+                        <span class="material-icons">medical_services</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Aasandha</span>
+                            <span class="emergency-number">1400</span>
+                        </div>
+                    </a>
+                    <a href="tel:1415" class="emergency-card">
+                        <span class="material-icons">receipt_long</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">MIRA</span>
+                            <span class="emergency-number">1415</span>
+                        </div>
+                    </a>
+                    <a href="tel:1416" class="emergency-card">
+                        <span class="material-icons">inventory</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Customs</span>
+                            <span class="emergency-number">1416</span>
+                        </div>
+                    </a>
+                    <a href="tel:1414" class="emergency-card">
+                        <span class="material-icons">how_to_vote</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Elections</span>
+                            <span class="emergency-number">1414</span>
+                        </div>
+                    </a>
+                    <a href="tel:1410" class="emergency-card">
+                        <span class="material-icons">psychology</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Drug Rehab</span>
+                            <span class="emergency-number">1410</span>
+                        </div>
+                    </a>
+                </div>
+            </details>
+
+            <details class="emergency-section">
+                <summary>Medical</summary>
+                <div class="emergency-grid">
+                    <a href="tel:3335335" class="emergency-card">
+                        <span class="material-icons">local_hospital</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">IGMH</span>
+                            <span class="emergency-number">3335335</span>
+                        </div>
+                    </a>
+                    <a href="tel:3313553" class="emergency-card">
+                        <span class="material-icons">local_hospital</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">ADK</span>
+                            <span class="emergency-number">3313553</span>
+                        </div>
+                    </a>
+                    <a href="tel:3351610" class="emergency-card">
+                        <span class="material-icons">local_hospital</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Tree Top</span>
+                            <span class="emergency-number">3351610</span>
+                        </div>
+                    </a>
+                </div>
+            </details>
+
+            <details class="emergency-section">
+                <summary>Travel</summary>
+                <div class="emergency-grid">
+                    <a href="tel:3322211" class="emergency-card">
+                        <span class="material-icons">flight</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Flight Info</span>
+                            <span class="emergency-number">3322211</span>
+                        </div>
+                    </a>
+                    <a href="tel:3335544" class="emergency-card">
+                        <span class="material-icons">flight_takeoff</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Maldivian</span>
+                            <span class="emergency-number">3335544</span>
+                        </div>
+                    </a>
+                    <a href="tel:110" class="emergency-card">
+                        <span class="material-icons">contact_phone</span>
+                        <div class="emergency-info">
+                            <span class="emergency-name">Directory Enquiries</span>
+                            <span class="emergency-number">110</span>
+                        </div>
+                    </a>
+                </div>
+            </details>
         </div>
     </div>
 
