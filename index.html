@@ -880,7 +880,7 @@
 
             if (data.length === 0) {
                 emptyState.style.display = 'block';
-                emptyStateMobile.style.display = 'block';
+                emptyStateMobile.style.display = '';  // Let CSS media queries handle visibility
                 resultsCount.textContent = filteredHistory ? 'No results found' : '';
                 return;
             }
