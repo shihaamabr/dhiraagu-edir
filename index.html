@@ -450,6 +450,23 @@
             letter-spacing: 1px;
         }
 
+        .phone-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--orange);
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .phone-link:hover {
+            color: #ffaa44;
+        }
+
+        .phone-link .material-icons {
+            font-size: 18px;
+        }
+
         .result {
             word-break: break-word;
             max-width: 300px;
@@ -892,7 +909,12 @@
             data.forEach((entry, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="phone-number">${escapeHtml(entry.phone)}</td>
+                    <td class="phone-number">
+                        <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
+                            <span class="material-icons">phone</span>
+                            ${escapeHtml(entry.phone)}
+                        </a>
+                    </td>
                     <td class="result">${escapeHtml(entry.result)}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                     <td>${getStatusBadge(entry.status)}</td>
@@ -904,7 +926,12 @@
                 card.innerHTML = `
                     <div class="mobile-card-item">
                         <span class="mobile-card-label">Phone</span>
-                        <span class="mobile-card-value phone-number">${escapeHtml(entry.phone)}</span>
+                        <span class="mobile-card-value phone-number">
+                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
+                                <span class="material-icons">phone</span>
+                                ${escapeHtml(entry.phone)}
+                            </a>
+                        </span>
                     </div>
                     <div class="mobile-card-item">
                         <span class="mobile-card-label">Result</span>
