@@ -180,6 +180,21 @@
             margin-bottom: 24px;
         }
 
+        .search-form-row {
+            display: flex;
+            gap: 12px;
+            align-items: stretch;
+        }
+
+        .search-form-row .input-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+
+        .search-form-row .btn-icon {
+            padding: 16px;
+        }
+
         .input-group .material-icons {
             position: absolute;
             left: 16px;
@@ -272,6 +287,51 @@
             background-color: var(--error);
             color: white;
             border-color: var(--error);
+        }
+
+        .btn-outline {
+            color: var(--orange);
+            font-size: 14px;
+            padding: 14px 24px;
+            border: 2px solid var(--orange);
+            background-color: transparent;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--orange);
+            color: white;
+        }
+
+        .btn-danger-filled {
+            background-color: var(--error);
+            color: white;
+            font-size: 14px;
+            padding: 14px 24px;
+            border: 2px solid var(--error);
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .btn-danger-filled:hover {
+            background-color: #ff1744;
+            border-color: #ff1744;
+        }
+
+        .btn-icon {
+            padding: 8px;
+            margin-top: 0;
+            width: auto;
+            min-width: unset;
+            flex-shrink: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-icon .material-icons {
+            font-size: 20px;
         }
 
         .spinner {
@@ -824,14 +884,14 @@
             }
 
             .section-header {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: row;
+                align-items: center;
                 gap: 16px;
                 border-bottom: none;
                 padding-bottom: 0;
             }
 
-            .btn-danger {
+            .btn-danger:not(.btn-icon) {
                 width: 100%;
             }
 
@@ -995,7 +1055,7 @@
                         <p class="subtitle">Dhiraagu Directory Lookup</p>
                     </div>
 
-                    <form id="searchForm">
+                    <form id="searchForm" class="search-form-row">
                 <div class="input-group">
                     <input
                         type="tel"
@@ -1007,9 +1067,8 @@
                     <span class="material-icons">phone</span>
                 </div>
 
-                <button type="submit" class="btn btn-primary" id="searchBtn">
+                <button type="submit" class="btn btn-primary btn-icon" id="searchBtn" title="Search">
                     <span class="material-icons">search</span>
-                    <span>Search</span>
                 </button>
             </form>
         </div>
@@ -1017,9 +1076,8 @@
         <div class="card">
             <div class="section-header">
                 <h2 class="section-title">Search History</h2>
-                <button class="btn btn-danger" id="clearHistoryBtn">
+                <button class="btn btn-danger btn-icon" id="clearHistoryBtn" title="Clear History">
                     <span class="material-icons">delete</span>
-                    <span>Clear History</span>
                 </button>
             </div>
 
@@ -1255,8 +1313,8 @@
             <h3 class="confirm-title">Clear History?</h3>
             <p class="confirm-message">Are you sure you want to clear all search history? This action cannot be undone.</p>
             <div class="confirm-actions">
-                <button class="btn" id="cancelClearBtn">Cancel</button>
-                <button class="btn btn-primary" id="confirmClearBtn">Clear</button>
+                <button class="btn btn-outline" id="cancelClearBtn">Cancel</button>
+                <button class="btn btn-danger-filled" id="confirmClearBtn">Clear</button>
             </div>
         </div>
     </div>
