@@ -1,0 +1,35 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1b1b1b"/>
+      <stop offset="100%" style="stop-color:#292929"/>
+    </linearGradient>
+    <linearGradient id="orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffa31a"/>
+      <stop offset="100%" style="stop-color:#ff8c00"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="675" fill="url(#bg)"/>
+
+  <!-- Decorative elements -->
+  <circle cx="100" cy="100" r="200" fill="#ffa31a" opacity="0.05"/>
+  <circle cx="1100" cy="575" r="250" fill="#ffa31a" opacity="0.05"/>
+
+  <!-- Logo icon -->
+  <rect x="490" y="200" width="80" height="80" rx="16" fill="url(#orange)"/>
+  <text x="530" y="255" font-family="Arial, sans-serif" font-size="40" fill="white" text-anchor="middle">&#128222;</text>
+
+  <!-- Title -->
+  <text x="600" y="260" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">E-Dir</text>
+
+  <!-- Subtitle -->
+  <text x="600" y="340" font-family="Arial, sans-serif" font-size="28" fill="#808080" text-anchor="middle">Dhiraagu Directory Lookup</text>
+
+  <!-- Tagline -->
+  <text x="600" y="420" font-family="Arial, sans-serif" font-size="22" fill="#ffa31a" text-anchor="middle">Search any phone number instantly</text>
+
+  <!-- Bottom accent line -->
+  <rect x="450" y="480" width="300" height="4" rx="2" fill="url(#orange)"/>
+</svg>
