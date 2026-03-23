@@ -101,14 +101,33 @@
 
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1400px;
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .main-layout > .left-column,
+        .main-layout > .right-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
         }
 
         .card {
             background-color: var(--bg-card);
             border: 2px solid var(--border);
             padding: 28px;
-            margin-bottom: 20px;
         }
 
         .header {
@@ -773,9 +792,10 @@
 
         .emergency-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
         }
+
 
         .emergency-card {
             display: flex;
@@ -840,6 +860,7 @@
         .emergency-section {
             margin-top: 20px;
             border: 2px solid var(--border);
+            height: fit-content;
         }
 
         .emergency-section summary {
@@ -863,14 +884,18 @@
         }
 
         .emergency-section summary::after {
-            content: 'expand_more';
-            font-family: 'Material Icons';
-            font-size: 24px;
+            content: '▼';
+            font-size: 12px;
             transition: transform 0.2s ease;
+            opacity: 0.5;
         }
 
         .emergency-section[open] summary::after {
             transform: rotate(180deg);
+        }
+
+        .emergency-section summary:hover::after {
+            opacity: 1;
         }
 
         .emergency-section summary:hover {
@@ -885,18 +910,20 @@
 </head>
 <body>
     <div class="container">
-        <div class="card">
-            <div class="header">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <span class="material-icons">contacts</span>
+        <div class="main-layout">
+            <div class="left-column">
+                <div class="card">
+                    <div class="header">
+                        <div class="logo">
+                            <div class="logo-icon">
+                                <span class="material-icons">contacts</span>
+                            </div>
+                            <h1>E-Dir</h1>
+                        </div>
+                        <p class="subtitle">Dhiraagu Directory Lookup</p>
                     </div>
-                    <h1>E-Dir</h1>
-                </div>
-                <p class="subtitle">Dhiraagu Directory Lookup</p>
-            </div>
 
-            <form id="searchForm">
+                    <form id="searchForm">
                 <div class="input-group">
                     <input
                         type="tel"
@@ -954,18 +981,20 @@
                 </div>
             </div>
 
-            <div class="mobile-table" id="mobileTable"></div>
-            <div id="emptyStateMobile" class="empty-state mobile-table">
-                <span class="material-icons">history</span>
-                <h3>No search history yet</h3>
-                <p>Your searches will appear here</p>
+                <div class="mobile-table" id="mobileTable"></div>
+                <div id="emptyStateMobile" class="empty-state mobile-table">
+                    <span class="material-icons">history</span>
+                    <h3>No search history yet</h3>
+                    <p>Your searches will appear here</p>
+                </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="section-header">
-                <h2 class="section-title">Emergency Numbers</h2>
-            </div>
+        <div class="right-column">
+            <div class="card">
+                <div class="section-header">
+                    <h2 class="section-title">Emergency Numbers</h2>
+                </div>
             <div class="emergency-grid">
                 <a href="tel:119" class="emergency-card emergency-critical">
                     <span class="material-icons">local_police</span>
@@ -1126,6 +1155,8 @@
                     </a>
                 </div>
             </details>
+            </div>
+        </div>
         </div>
     </div>
 
