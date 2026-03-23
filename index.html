@@ -668,6 +668,19 @@
             color: var(--text-primary);
             font-weight: 500;
             font-size: 15px;
+            transition: all 0.15s ease;
+        }
+
+        .result.copyable {
+            cursor: pointer;
+        }
+
+        .result.copyable:hover {
+            color: var(--orange);
+        }
+
+        .result.copyable:active {
+            opacity: 0.7;
         }
 
         .datetime {
@@ -1440,6 +1453,11 @@
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
+                const resultCell = row.querySelector('.result');
+                if (entry.status === 'success') {
+                    resultCell.classList.add('copyable');
+                    resultCell.addEventListener('click', () => copyToClipboard(entry.result));
+                }
                 historyTableBody.appendChild(row);
 
                 // Mobile table row
@@ -1454,6 +1472,11 @@
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
+                const mobileResultCell = mobileRow.querySelector('.result');
+                if (entry.status === 'success') {
+                    mobileResultCell.classList.add('copyable');
+                    mobileResultCell.addEventListener('click', () => copyToClipboard(entry.result));
+                }
                 mobileTableBody.appendChild(mobileRow);
             });
         }
@@ -1533,6 +1556,15 @@
             return div.innerHTML;
         }
 
+        async function copyToClipboard(text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                showToast('Copied to clipboard', 'success');
+            } catch (err) {
+                showToast('Failed to copy', 'error');
+            }
+        }
+
         // Only allow numbers and + in phone input
         phoneInput.addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^0-9+]/g, '');
@@ -1553,7 +1585,7 @@
             }
 
             searchBtn.disabled = true;
-            searchBtn.innerHTML = '<div class="spinner"></div><span>Searching...</span>';
+            searchBtn.innerHTML = '<div class="spinner"></div>';
 
             try {
                 const response = await fetch(`https://dhiraagu-edir-proxy.shihaam.me/${encodeURIComponent(apiNumber)}`);
@@ -1572,7 +1604,7 @@
                 addToHistory(phoneNumber, 'Failed to fetch data', 'error');
             } finally {
                 searchBtn.disabled = false;
-                searchBtn.innerHTML = '<span class="material-icons">search</span><span>Search</span>';
+                searchBtn.innerHTML = '<span class="material-icons">search</span>';
                 phoneInput.value = '';
             }
         });
