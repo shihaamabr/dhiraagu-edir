@@ -301,12 +301,13 @@ function showQrCode(phone) {
     const telUrl = `tel:${phone}`;
     qrTitle.textContent = phone;
     qrContainer.innerHTML = '';
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches;
     new QRCode(qrContainer, {
         text: telUrl,
         width: 200,
         height: 200,
-        colorDark: '#ff8c00',
-        colorLight: '#111111',
+        colorDark: isLightMode ? '#e07800' : '#ff8c00',
+        colorLight: isLightMode ? '#ffffff' : '#111111',
         correctLevel: QRCode.CorrectLevel.H
     });
     qrModal.classList.add('show');
