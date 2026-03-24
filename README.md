@@ -1,12 +1,16 @@
 # E-Dir
 
-A simple web frontend for Dhiraagu directory lookup.
+A better web frontend for [Dhiraagu E-Directory](https://www.dhiraagu.com.mv/e-directory).
 
 ## Features
 
 - Phone number lookup via Dhiraagu E-Dir API
-- Material Design UI
+- Tap-to-call with `tel:` links
+- Search history stored in LocalStorage
+- Accepts country code prefix (+960)
+- QR code generation to share contact numbers
 - Automatic dark/light theme (follows system preference)
+- No Recaptcha required
 
 ## Usage
 
