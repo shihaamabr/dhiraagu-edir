@@ -539,8 +539,12 @@
             background-color: var(--bg-secondary);
         }
 
-        .mobile-table .phone-link .material-icons {
-            font-size: 14px;
+        .mobile-table .phone-icon-btn .material-icons {
+            font-size: 16px;
+        }
+
+        .mobile-table .phone-text {
+            font-size: 13px;
         }
 
         .table-container {
@@ -645,40 +649,49 @@
             letter-spacing: 1px;
         }
 
-        .phone-cell {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
+        td.phone-number {
+            padding: 16px 14px;
         }
 
-        .phone-link {
-            display: inline-flex;
+        .phone-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 6px;
+        }
+
+        .phone-icons {
+            display: flex;
+            flex-direction: row;
+            gap: 12px;
+        }
+
+        .phone-icon-btn {
+            display: flex;
             align-items: center;
+            justify-content: center;
             color: var(--orange);
             text-decoration: none;
             transition: all 0.15s ease;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 0;
         }
 
-        .phone-link:hover {
+        .phone-icon-btn:hover {
             color: #ffaa44;
         }
 
-        .phone-link .material-icons {
+        .phone-icon-btn .material-icons {
             font-size: 18px;
         }
 
         .phone-text {
             color: var(--orange);
-            cursor: pointer;
-            transition: all 0.15s ease;
-        }
-
-        .phone-text:hover {
-            color: #ffaa44;
-        }
-
-        .phone-text:active {
-            opacity: 0.7;
+            font-weight: 700;
+            font-family: 'Roboto Mono', monospace;
+            letter-spacing: 1px;
         }
 
         .result {
@@ -894,6 +907,24 @@
             flex: 1;
             font-size: 14px;
             padding: 16px;
+        }
+
+        .qr-card {
+            text-align: center;
+        }
+
+        .qr-card .confirm-title {
+            margin-bottom: 24px;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+
+        .qr-container canvas {
+            border: 2px solid var(--border);
         }
 
         @media (max-width: 768px) {
@@ -1351,6 +1382,16 @@
         </div>
     </div>
 
+    <div class="confirm-modal" id="qrModal">
+        <div class="confirm-card qr-card">
+            <h3 class="confirm-title" id="qrTitle">QR Code</h3>
+            <div class="qr-container" id="qrContainer"></div>
+            <div class="confirm-actions">
+                <button class="btn btn-outline" id="closeQrBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         const form = document.getElementById('searchForm');
         const phoneInput = document.getElementById('phoneNumber');
@@ -1370,6 +1411,10 @@
         const mobileTableContainer = document.getElementById('mobileTableContainer');
         const mobileTableBody = document.getElementById('mobileTableBody');
         const emptyStateMobile = document.getElementById('emptyStateMobile');
+        const qrModal = document.getElementById('qrModal');
+        const qrContainer = document.getElementById('qrContainer');
+        const qrTitle = document.getElementById('qrTitle');
+        const closeQrBtn = document.getElementById('closeQrBtn');
 
         let searchHistory = [];
         let currentSort = { column: 'timestamp', direction: 'desc' };
@@ -1464,17 +1509,22 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td class="phone-number">
-                        <span class="phone-cell">
-                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
-                                <span class="material-icons">phone</span>
-                            </a>
+                        <div class="phone-cell">
+                            <div class="phone-icons">
+                                <a href="tel:${escapeHtml(entry.phone)}" class="phone-icon-btn" title="Call">
+                                    <span class="material-icons">phone</span>
+                                </a>
+                                <button class="phone-icon-btn qr-btn" title="QR Code">
+                                    <span class="material-icons">qr_code_2</span>
+                                </button>
+                            </div>
                             <span class="phone-text">${escapeHtml(entry.phone)}</span>
-                        </span>
+                        </div>
                     </td>
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
-                row.querySelector('.phone-text').addEventListener('click', () => copyToClipboard(entry.phone));
+                row.querySelector('.qr-btn').addEventListener('click', () => showQrCode(entry.phone));
                 const resultCell = row.querySelector('.result');
                 if (entry.status === 'success') {
                     resultCell.classList.add('copyable');
@@ -1486,17 +1536,22 @@
                 const mobileRow = document.createElement('tr');
                 mobileRow.innerHTML = `
                     <td class="phone-number">
-                        <span class="phone-cell">
-                            <a href="tel:${escapeHtml(entry.phone)}" class="phone-link">
-                                <span class="material-icons">phone</span>
-                            </a>
+                        <div class="phone-cell">
+                            <div class="phone-icons">
+                                <a href="tel:${escapeHtml(entry.phone)}" class="phone-icon-btn" title="Call">
+                                    <span class="material-icons">phone</span>
+                                </a>
+                                <button class="phone-icon-btn qr-btn" title="QR Code">
+                                    <span class="material-icons">qr_code_2</span>
+                                </button>
+                            </div>
                             <span class="phone-text">${escapeHtml(entry.phone)}</span>
-                        </span>
+                        </div>
                     </td>
                     <td class="result">${resultHtml}</td>
                     <td class="datetime">${formatDate(entry.timestamp)}</td>
                 `;
-                mobileRow.querySelector('.phone-text').addEventListener('click', () => copyToClipboard(entry.phone));
+                mobileRow.querySelector('.qr-btn').addEventListener('click', () => showQrCode(entry.phone));
                 const mobileResultCell = mobileRow.querySelector('.result');
                 if (entry.status === 'success') {
                     mobileResultCell.classList.add('copyable');
@@ -1590,6 +1645,481 @@
             }
         }
 
+        // Minimal QR Code Generator
+        const QRCode = (function() {
+            const EC_L = 1, EC_M = 0, EC_Q = 3, EC_H = 2;
+
+            function generateQR(text, ecl = EC_M) {
+                const data = encodeData(text, ecl);
+                const size = data.size;
+                const modules = data.modules;
+                return { size, modules };
+            }
+
+            function encodeData(text, ecl) {
+                const bytes = new TextEncoder().encode(text);
+                let version = 1;
+                for (; version <= 40; version++) {
+                    const capacity = getCapacity(version, ecl);
+                    if (bytes.length <= capacity) break;
+                }
+                if (version > 40) throw new Error('Data too long');
+
+                const size = version * 4 + 17;
+                const modules = Array(size).fill(null).map(() => Array(size).fill(null));
+                const ecInfo = getECInfo(version, ecl);
+
+                // Place finder patterns
+                placeFinderPattern(modules, 0, 0);
+                placeFinderPattern(modules, size - 7, 0);
+                placeFinderPattern(modules, 0, size - 7);
+
+                // Place timing patterns
+                for (let i = 8; i < size - 8; i++) {
+                    modules[6][i] = modules[i][6] = i % 2 === 0;
+                }
+
+                // Place alignment patterns
+                if (version >= 2) {
+                    const positions = getAlignmentPositions(version);
+                    for (const row of positions) {
+                        for (const col of positions) {
+                            if (modules[row][col] === null) {
+                                placeAlignmentPattern(modules, row, col);
+                            }
+                        }
+                    }
+                }
+
+                // Reserve format info areas
+                for (let i = 0; i < 9; i++) {
+                    if (modules[8][i] === null) modules[8][i] = false;
+                    if (modules[i][8] === null) modules[i][8] = false;
+                    if (i < 8) {
+                        if (modules[8][size - 1 - i] === null) modules[8][size - 1 - i] = false;
+                        if (modules[size - 1 - i][8] === null) modules[size - 1 - i][8] = false;
+                    }
+                }
+                modules[size - 8][8] = true; // Dark module
+
+                // Reserve version info for version >= 7
+                if (version >= 7) {
+                    for (let i = 0; i < 6; i++) {
+                        for (let j = 0; j < 3; j++) {
+                            modules[i][size - 11 + j] = false;
+                            modules[size - 11 + j][i] = false;
+                        }
+                    }
+                }
+
+                // Encode data
+                const dataCodewords = encodeDataCodewords(bytes, version, ecl);
+                const ecCodewords = generateECCodewords(dataCodewords, ecInfo);
+                const allCodewords = interleaveCodewords(dataCodewords, ecCodewords, ecInfo);
+
+                // Place data
+                placeData(modules, allCodewords, size);
+
+                // Apply mask and format info
+                const mask = selectBestMask(modules, size, ecl);
+                applyMask(modules, mask, size);
+                placeFormatInfo(modules, ecl, mask, size);
+
+                if (version >= 7) {
+                    placeVersionInfo(modules, version, size);
+                }
+
+                return { size, modules };
+            }
+
+            function getCapacity(version, ecl) {
+                const capacities = [
+                    [17,14,11,7],[32,26,20,14],[53,42,32,24],[78,62,46,34],[106,84,60,44],
+                    [134,106,74,58],[154,122,86,64],[192,152,108,84],[230,180,130,98],[271,213,151,119],
+                    [321,251,177,137],[367,287,203,155],[425,331,241,177],[458,362,258,194],[520,412,292,220],
+                    [586,450,322,250],[644,504,364,280],[718,560,394,310],[792,624,442,338],[858,666,482,382],
+                    [929,711,509,403],[1003,779,565,439],[1091,857,611,461],[1171,911,661,511],[1273,997,715,535],
+                    [1367,1059,751,593],[1465,1125,805,625],[1528,1190,868,658],[1628,1264,908,698],[1732,1370,982,742],
+                    [1840,1452,1030,790],[1952,1538,1112,842],[2068,1628,1168,898],[2188,1722,1228,958],[2303,1809,1283,983],
+                    [2431,1911,1351,1051],[2563,1989,1423,1093],[2699,2099,1499,1139],[2809,2213,1579,1219],[2953,2331,1663,1273]
+                ];
+                return capacities[version - 1][[EC_L, EC_M, EC_Q, EC_H].indexOf(ecl)] - 3;
+            }
+
+            function getECInfo(version, ecl) {
+                const table = {
+                    1: { 0: [1,26,19], 1: [1,26,16], 2: [1,26,13], 3: [1,26,9] },
+                    2: { 0: [1,44,34], 1: [1,44,28], 2: [1,44,22], 3: [1,44,16] },
+                    3: { 0: [1,70,55], 1: [1,70,44], 2: [2,35,17], 3: [2,35,13] },
+                    4: { 0: [1,100,80], 1: [2,50,32], 2: [2,50,24], 3: [4,25,9] },
+                    5: { 0: [1,134,108], 1: [2,67,43], 2: [2,33,15,2,34,16], 3: [2,33,11,2,34,12] }
+                };
+                if (table[version] && table[version][ecl]) {
+                    const info = table[version][ecl];
+                    if (info.length === 3) {
+                        return { blocks: [{ count: info[0], total: info[1], data: info[2] }] };
+                    } else {
+                        return { blocks: [
+                            { count: info[0], total: info[1], data: info[2] },
+                            { count: info[3], total: info[4], data: info[5] }
+                        ]};
+                    }
+                }
+                return { blocks: [{ count: 1, total: 26, data: 19 }] };
+            }
+
+            function placeFinderPattern(modules, row, col) {
+                for (let r = -1; r <= 7; r++) {
+                    for (let c = -1; c <= 7; c++) {
+                        const tr = row + r, tc = col + c;
+                        if (tr < 0 || tc < 0 || tr >= modules.length || tc >= modules.length) continue;
+                        const isBorder = r === -1 || r === 7 || c === -1 || c === 7;
+                        const isOuter = r === 0 || r === 6 || c === 0 || c === 6;
+                        const isInner = r >= 2 && r <= 4 && c >= 2 && c <= 4;
+                        modules[tr][tc] = !isBorder && (isOuter || isInner);
+                    }
+                }
+            }
+
+            function placeAlignmentPattern(modules, row, col) {
+                for (let r = -2; r <= 2; r++) {
+                    for (let c = -2; c <= 2; c++) {
+                        modules[row + r][col + c] = Math.abs(r) === 2 || Math.abs(c) === 2 || (r === 0 && c === 0);
+                    }
+                }
+            }
+
+            function getAlignmentPositions(version) {
+                if (version === 1) return [];
+                const positions = [6];
+                const step = Math.floor(version / 7) + 1;
+                const last = version * 4 + 10;
+                const diff = last - 6;
+                const stepSize = Math.ceil(diff / step);
+                for (let i = last - stepSize * (step - 1); i <= last; i += stepSize) {
+                    if (!positions.includes(i)) positions.push(i);
+                }
+                return positions.sort((a, b) => a - b);
+            }
+
+            function encodeDataCodewords(bytes, version, ecl) {
+                const bits = [];
+                bits.push(0, 1, 0, 0); // Byte mode indicator
+                const countBits = version < 10 ? 8 : 16;
+                for (let i = countBits - 1; i >= 0; i--) {
+                    bits.push((bytes.length >> i) & 1);
+                }
+                for (const byte of bytes) {
+                    for (let i = 7; i >= 0; i--) {
+                        bits.push((byte >> i) & 1);
+                    }
+                }
+
+                const ecInfo = getECInfo(version, ecl);
+                let totalData = 0;
+                for (const block of ecInfo.blocks) {
+                    totalData += block.count * block.data;
+                }
+                const totalBits = totalData * 8;
+
+                // Add terminator
+                for (let i = 0; i < 4 && bits.length < totalBits; i++) bits.push(0);
+                while (bits.length % 8 !== 0) bits.push(0);
+
+                // Add padding
+                let pad = true;
+                while (bits.length < totalBits) {
+                    const padByte = pad ? 0xEC : 0x11;
+                    for (let i = 7; i >= 0; i--) bits.push((padByte >> i) & 1);
+                    pad = !pad;
+                }
+
+                const codewords = [];
+                for (let i = 0; i < bits.length; i += 8) {
+                    let byte = 0;
+                    for (let j = 0; j < 8; j++) byte = (byte << 1) | bits[i + j];
+                    codewords.push(byte);
+                }
+                return codewords;
+            }
+
+            function generateECCodewords(data, ecInfo) {
+                const allEC = [];
+                let dataIndex = 0;
+                for (const block of ecInfo.blocks) {
+                    for (let i = 0; i < block.count; i++) {
+                        const blockData = data.slice(dataIndex, dataIndex + block.data);
+                        dataIndex += block.data;
+                        const ecCount = block.total - block.data;
+                        const ec = reedSolomon(blockData, ecCount);
+                        allEC.push(ec);
+                    }
+                }
+                return allEC;
+            }
+
+            function reedSolomon(data, ecCount) {
+                const gf = {
+                    exp: new Uint8Array(512),
+                    log: new Uint8Array(256)
+                };
+                let x = 1;
+                for (let i = 0; i < 255; i++) {
+                    gf.exp[i] = x;
+                    gf.log[x] = i;
+                    x <<= 1;
+                    if (x & 0x100) x ^= 0x11d;
+                }
+                for (let i = 255; i < 512; i++) gf.exp[i] = gf.exp[i - 255];
+
+                const gen = [1];
+                for (let i = 0; i < ecCount; i++) {
+                    const newGen = new Array(gen.length + 1).fill(0);
+                    for (let j = 0; j < gen.length; j++) {
+                        newGen[j] ^= gen[j];
+                        newGen[j + 1] ^= gf.exp[(gf.log[gen[j]] + i) % 255];
+                    }
+                    gen.length = 0;
+                    gen.push(...newGen);
+                }
+
+                const result = new Uint8Array(ecCount);
+                const msg = new Uint8Array(data.length + ecCount);
+                msg.set(data);
+
+                for (let i = 0; i < data.length; i++) {
+                    const coef = msg[i];
+                    if (coef !== 0) {
+                        for (let j = 0; j < gen.length; j++) {
+                            msg[i + j] ^= gf.exp[(gf.log[gen[j]] + gf.log[coef]) % 255];
+                        }
+                    }
+                }
+                result.set(msg.slice(data.length));
+                return Array.from(result);
+            }
+
+            function interleaveCodewords(data, ec, ecInfo) {
+                const dataBlocks = [];
+                const ecBlocks = ec;
+                let dataIndex = 0;
+
+                for (const block of ecInfo.blocks) {
+                    for (let i = 0; i < block.count; i++) {
+                        dataBlocks.push(data.slice(dataIndex, dataIndex + block.data));
+                        dataIndex += block.data;
+                    }
+                }
+
+                const result = [];
+                const maxDataLen = Math.max(...dataBlocks.map(b => b.length));
+                for (let i = 0; i < maxDataLen; i++) {
+                    for (const block of dataBlocks) {
+                        if (i < block.length) result.push(block[i]);
+                    }
+                }
+
+                const maxEcLen = Math.max(...ecBlocks.map(b => b.length));
+                for (let i = 0; i < maxEcLen; i++) {
+                    for (const block of ecBlocks) {
+                        if (i < block.length) result.push(block[i]);
+                    }
+                }
+
+                return result;
+            }
+
+            function placeData(modules, codewords, size) {
+                let bitIndex = 0;
+                let up = true;
+
+                for (let col = size - 1; col >= 0; col -= 2) {
+                    if (col === 6) col = 5;
+
+                    for (let i = 0; i < size; i++) {
+                        const row = up ? size - 1 - i : i;
+
+                        for (let j = 0; j < 2; j++) {
+                            const c = col - j;
+                            if (modules[row][c] === null) {
+                                const byteIndex = Math.floor(bitIndex / 8);
+                                const bitPos = 7 - (bitIndex % 8);
+                                modules[row][c] = byteIndex < codewords.length && ((codewords[byteIndex] >> bitPos) & 1) === 1;
+                                bitIndex++;
+                            }
+                        }
+                    }
+                    up = !up;
+                }
+            }
+
+            function selectBestMask(modules, size, ecl) {
+                let bestMask = 0;
+                let bestPenalty = Infinity;
+
+                for (let mask = 0; mask < 8; mask++) {
+                    const copy = modules.map(row => [...row]);
+                    applyMask(copy, mask, size);
+                    const penalty = calculatePenalty(copy, size);
+                    if (penalty < bestPenalty) {
+                        bestPenalty = penalty;
+                        bestMask = mask;
+                    }
+                }
+                return bestMask;
+            }
+
+            function applyMask(modules, mask, size) {
+                const maskFns = [
+                    (r, c) => (r + c) % 2 === 0,
+                    (r, c) => r % 2 === 0,
+                    (r, c) => c % 3 === 0,
+                    (r, c) => (r + c) % 3 === 0,
+                    (r, c) => (Math.floor(r / 2) + Math.floor(c / 3)) % 2 === 0,
+                    (r, c) => ((r * c) % 2) + ((r * c) % 3) === 0,
+                    (r, c) => (((r * c) % 2) + ((r * c) % 3)) % 2 === 0,
+                    (r, c) => (((r + c) % 2) + ((r * c) % 3)) % 2 === 0
+                ];
+
+                for (let r = 0; r < size; r++) {
+                    for (let c = 0; c < size; c++) {
+                        if (isDataModule(r, c, size)) {
+                            if (maskFns[mask](r, c)) {
+                                modules[r][c] = !modules[r][c];
+                            }
+                        }
+                    }
+                }
+            }
+
+            function isDataModule(row, col, size) {
+                // Check finder patterns
+                if (row < 9 && col < 9) return false;
+                if (row < 9 && col >= size - 8) return false;
+                if (row >= size - 8 && col < 9) return false;
+                // Check timing patterns
+                if (row === 6 || col === 6) return false;
+                return true;
+            }
+
+            function calculatePenalty(modules, size) {
+                let penalty = 0;
+
+                // Rule 1: consecutive same-color modules
+                for (let r = 0; r < size; r++) {
+                    let count = 1;
+                    for (let c = 1; c < size; c++) {
+                        if (modules[r][c] === modules[r][c - 1]) {
+                            count++;
+                        } else {
+                            if (count >= 5) penalty += 3 + (count - 5);
+                            count = 1;
+                        }
+                    }
+                    if (count >= 5) penalty += 3 + (count - 5);
+                }
+
+                for (let c = 0; c < size; c++) {
+                    let count = 1;
+                    for (let r = 1; r < size; r++) {
+                        if (modules[r][c] === modules[r - 1][c]) {
+                            count++;
+                        } else {
+                            if (count >= 5) penalty += 3 + (count - 5);
+                            count = 1;
+                        }
+                    }
+                    if (count >= 5) penalty += 3 + (count - 5);
+                }
+
+                return penalty;
+            }
+
+            function placeFormatInfo(modules, ecl, mask, size) {
+                const formatBits = ((ecl << 3) | mask);
+                const poly = 0x537;
+                let rem = formatBits << 10;
+                for (let i = 4; i >= 0; i--) {
+                    if (rem & (1 << (i + 10))) {
+                        rem ^= poly << i;
+                    }
+                }
+                const format = ((formatBits << 10) | rem) ^ 0x5412;
+
+                const bits = [];
+                for (let i = 14; i >= 0; i--) bits.push((format >> i) & 1);
+
+                // Place format info
+                for (let i = 0; i < 6; i++) modules[8][i] = bits[14 - i] === 1;
+                modules[8][7] = bits[8] === 1;
+                modules[8][8] = bits[7] === 1;
+                modules[7][8] = bits[6] === 1;
+                for (let i = 0; i < 6; i++) modules[5 - i][8] = bits[i] === 1;
+
+                for (let i = 0; i < 8; i++) modules[8][size - 1 - i] = bits[14 - i] === 1;
+                for (let i = 0; i < 7; i++) modules[size - 7 + i][8] = bits[i] === 1;
+            }
+
+            function placeVersionInfo(modules, version, size) {
+                if (version < 7) return;
+                const poly = 0x1F25;
+                let rem = version << 12;
+                for (let i = 5; i >= 0; i--) {
+                    if (rem & (1 << (i + 12))) {
+                        rem ^= poly << i;
+                    }
+                }
+                const versionInfo = (version << 12) | rem;
+
+                for (let i = 0; i < 18; i++) {
+                    const bit = (versionInfo >> i) & 1;
+                    const row = Math.floor(i / 3);
+                    const col = i % 3;
+                    modules[row][size - 11 + col] = bit === 1;
+                    modules[size - 11 + col][row] = bit === 1;
+                }
+            }
+
+            function renderToCanvas(qr, cellSize = 8, margin = 4) {
+                const size = qr.size * cellSize + margin * 2 * cellSize;
+                const canvas = document.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                const ctx = canvas.getContext('2d');
+
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, size, size);
+
+                ctx.fillStyle = '#000000';
+                for (let r = 0; r < qr.size; r++) {
+                    for (let c = 0; c < qr.size; c++) {
+                        if (qr.modules[r][c]) {
+                            ctx.fillRect(
+                                (c + margin) * cellSize,
+                                (r + margin) * cellSize,
+                                cellSize,
+                                cellSize
+                            );
+                        }
+                    }
+                }
+
+                return canvas;
+            }
+
+            return { generate: generateQR, render: renderToCanvas };
+        })();
+
+        function showQrCode(phone) {
+            const telUrl = `tel:${phone}`;
+            qrTitle.textContent = phone;
+            qrContainer.innerHTML = '';
+            const qr = QRCode.generate(telUrl);
+            const canvas = QRCode.render(qr, 8, 4);
+            qrContainer.appendChild(canvas);
+            qrModal.classList.add('show');
+        }
+
         // Only allow numbers and + in phone input
         phoneInput.addEventListener('input', (e) => {
             e.target.value = e.target.value.replace(/[^0-9+]/g, '');
@@ -1670,6 +2200,16 @@
         confirmModal.addEventListener('click', (e) => {
             if (e.target === confirmModal) {
                 confirmModal.classList.remove('show');
+            }
+        });
+
+        closeQrBtn.addEventListener('click', () => {
+            qrModal.classList.remove('show');
+        });
+
+        qrModal.addEventListener('click', (e) => {
+            if (e.target === qrModal) {
+                qrModal.classList.remove('show');
             }
         });
 
