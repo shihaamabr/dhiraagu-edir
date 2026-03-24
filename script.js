@@ -105,7 +105,7 @@ function renderTable(filteredHistory = null) {
         if (entry.status === 'not_found') {
             resultHtml = getStatusBadge(entry.status);
         } else if (entry.status === 'error') {
-            resultHtml = `${escapeHtml(entry.result)}<div style="margin-top: 8px;">${getStatusBadge(entry.status)}</div>`;
+            resultHtml = `${escapeHtml(entry.result)}<div style="margin-top: 8px;">${getStatusBadge(entry.status)}<button class="retry-btn" data-phone="${escapeHtml(entry.phone)}" data-id="${entry.id}" title="Retry"><span class="material-icons">refresh</span></button></div>`;
         } else {
             resultHtml = escapeHtml(entry.result);
         }
@@ -135,6 +135,10 @@ function renderTable(filteredHistory = null) {
             resultCell.classList.add('copyable');
             resultCell.addEventListener('click', () => copyToClipboard(entry.result));
         }
+        const retryBtn = row.querySelector('.retry-btn');
+        if (retryBtn) {
+            retryBtn.addEventListener('click', () => retrySearch(entry.id, entry.phone, retryBtn));
+        }
         historyTableBody.appendChild(row);
 
         // Mobile table row
@@ -161,6 +165,10 @@ function renderTable(filteredHistory = null) {
         if (entry.status === 'success') {
             mobileResultCell.classList.add('copyable');
             mobileResultCell.addEventListener('click', () => copyToClipboard(entry.result));
+        }
+        const mobileRetryBtn = mobileRow.querySelector('.retry-btn');
+        if (mobileRetryBtn) {
+            mobileRetryBtn.addEventListener('click', () => retrySearch(entry.id, entry.phone, mobileRetryBtn));
         }
         mobileTableBody.appendChild(mobileRow);
     });
@@ -247,6 +255,45 @@ async function copyToClipboard(text) {
         showToast('Copied to clipboard', 'success');
     } catch (err) {
         showToast('Failed to copy', 'error');
+    }
+}
+
+async function retrySearch(entryId, phoneNumber, button) {
+    button.classList.add('loading');
+
+    let apiNumber = phoneNumber;
+    if (/^\+960\d{7}$/.test(phoneNumber)) {
+        apiNumber = phoneNumber.slice(4);
+    } else if (/^960\d{7}$/.test(phoneNumber)) {
+        apiNumber = phoneNumber.slice(3);
+    }
+
+    try {
+        const response = await fetch(`https://dhiraagu-edir-proxy.shihaam.me/${encodeURIComponent(apiNumber)}`);
+        const data = await response.json();
+
+        const entryIndex = searchHistory.findIndex(e => e.id === entryId);
+        if (entryIndex === -1) return;
+
+        if (response.ok && data && data.dirEnquiryEntry) {
+            if (data.dirEnquiryEntry === 'Number not found') {
+                searchHistory[entryIndex].result = 'Number not found';
+                searchHistory[entryIndex].status = 'not_found';
+            } else {
+                searchHistory[entryIndex].result = data.dirEnquiryEntry;
+                searchHistory[entryIndex].status = 'success';
+            }
+        } else {
+            searchHistory[entryIndex].result = 'No results found';
+            searchHistory[entryIndex].status = 'error';
+        }
+        searchHistory[entryIndex].timestamp = Date.now();
+        saveHistory();
+        renderTable();
+        showToast('Retry successful', 'success');
+    } catch (error) {
+        button.classList.remove('loading');
+        showToast('Retry failed', 'error');
     }
 }
 
